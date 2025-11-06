@@ -1,0 +1,43 @@
+name: Test Package
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    name: Test on Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install package
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .
+
+    - name: Test package import
+      run: |
+        python -c "from conformal_clip_data import get_data_path; print(get_data_path('textile'))"
+
+    - name: Build package
+      run: |
+        pip install build
+        python -m build
+
+    - name: Check distribution
+      run: |
+        pip install twine
+        twine check dist/*
