@@ -31,11 +31,16 @@ pip install conformal-clip-data==0.1.1
 ## Quick Start
 
 ```python
-from conformal_clip_data import get_data_path
+from conformal_clip_data import textile_simulated_root, nominal_dir, local_dir, global_dir
 
-# Access the textile dataset
-data_path = get_data_path("textile")
-print(f"Dataset location: {data_path}")
+# Access the textile dataset root
+textile_path = textile_simulated_root()
+print(f"Textile dataset location: {textile_path}")
+
+# Access specific image categories
+print(f"Nominal images: {nominal_dir()}")
+print(f"Local defect images: {local_dir()}")
+print(f"Global defect images: {global_dir()}")
 ```
 
 ## Dataset Contents

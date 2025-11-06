@@ -30,7 +30,7 @@ jobs:
 
     - name: Test package import
       run: |
-        python -c "from conformal_clip_data import get_data_path; print(get_data_path('textile'))"
+        python -c "from conformal_clip_data import textile_simulated_root; print(textile_simulated_root())"
 
     - name: Build package
       run: |
