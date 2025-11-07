@@ -1,7 +1,7 @@
 from importlib.resources import files
 from pathlib import Path
 
-__version__ = "0.1.1"
+__version__ = "0.1.4"
 
 def data_root() -> Path:
     return Path(files("conformal_clip_data") / "data")

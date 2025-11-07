@@ -10,18 +10,25 @@ This package bundles the simulated textile image dataset used in **[Megahed et a
 
 ## Installation
 
-Install directly from PyPI:
+Install from PyPI (data only):
 
 ```bash
 pip install conformal-clip-data
 ```
 
-Or install from source:
+Optional image preview tools (Pillow + matplotlib) as an extra:
+
+```bash
+pip install "conformal-clip-data[standalone]"
+```
+
+Install from source:
 
 ```bash
 git clone https://github.com/fmegahed/conformal-clip-data.git
 cd conformal-clip-data
 pip install -e .
+# with preview tools: pip install -e .[standalone]
 ```
 
 ## Quick Start
@@ -38,6 +45,47 @@ print(f"Nominal images: {nominal_dir()}")
 print(f"Local defect images: {local_dir()}")
 print(f"Global defect images: {global_dir()}")
 ```
+
+### Quick Image Peek (optional)
+
+If you installed the optional extras (`[standalone]`), you can quickly visualize a few samples:
+
+```python
+from conformal_clip_data import nominal_dir, local_dir, global_dir
+import random
+from PIL import Image
+import matplotlib.pyplot as plt
+
+samples = []
+for d in [nominal_dir(), local_dir(), global_dir()]:
+    files = list(d.glob("*.jpg"))
+    samples += random.sample(files, k=min(3, len(files)))
+
+cols = 3
+rows = (len(samples) + cols - 1) // cols
+plt.figure(figsize=(12, 4 * rows))
+for i, f in enumerate(samples, 1):
+    plt.subplot(rows, cols, i)
+    plt.imshow(Image.open(f), cmap="gray")
+    plt.title(f.parent.name + " / " + f.name)
+    plt.axis("off")
+plt.tight_layout()
+plt.show()
+```
+
+### Verify Installation
+
+Note on names (PEP 503 normalization):
+
+- We publish as `conformal-clip-data`; pip also accepts `conformal_clip_data` and resolves to the same project.
+
+Quick check in your shell:
+
+```bash
+python -c "import conformal_clip_data as c, sys; print(c.__version__); print(c.__file__); print(sys.executable)"
+```
+
+Colab tip: use `%pip install conformal-clip-data` in one cell, then import in a new cell.
 
 ## Dataset Provenance
 
